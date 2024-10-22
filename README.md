@@ -25,3 +25,7 @@ tensorboard --logdir=./tensorboard_logs
 python lin_probe.py
 ```
 
+### Pretrained Models
+- Pretrained Model link - https://iitk-my.sharepoint.com/:u:/g/personal/sshivam21_iitk_ac_in/EXicDLe5DmhMmUCfjyYHBzoBOBYt4dt8w_-f64Jcr5ylOQ?e=IBc9rf
+- Logs from training - https://iitk-my.sharepoint.com/:u:/g/personal/sshivam21_iitk_ac_in/ERnaUJTHySVIiKm1d7Tpy-0BMyvdCy_VojtdenvVm0GjMg?e=SUVHGC
+
