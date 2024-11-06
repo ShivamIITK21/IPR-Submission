@@ -1,6 +1,7 @@
 import torch.nn as nn
 from soda import SODA
 from encoder import ResNetEncoder
+from attn_encoder import ResidualAttentionEncoder
 from denoiser import UNet_decoder
 import torch
 import torchvision.datasets as datasets
@@ -10,7 +11,7 @@ from tqdm import tqdm
 
 from train import DATA_ROOT
 
-MODEL_PATH = "./checkpoints/model.pth"
+MODEL_PATH = "./checkpoints/model_35.pth"
 DATA = "../data/cifar10"
 LATENT_DIM = 128
 NUM_CLASSES = 10
@@ -37,7 +38,8 @@ class Simpleclassifier(nn.Module):
 
 if __name__ == "__main__":
     sc = Simpleclassifier(latent_dim=LATENT_DIM, num_classes=NUM_CLASSES).to(DEVICE)
-    encoder = ResNetEncoder(image_dim=IMAGE_DIM,latent_dim=LATENT_DIM)
+    # encoder = ResNetEncoder(image_dim=IMAGE_DIM,latent_dim=LATENT_DIM)
+    encoder = ResidualAttentionEncoder()
     denoiser = UNet_decoder(image_shape=(3, IMAGE_DIM, IMAGE_DIM), z_channels=LATENT_DIM).to(DEVICE)
     soda = SODA(encoder, denoiser, betas=[1.0e-4, 0.02], n_T=1000, drop_prob=0.1, device=DEVICE)
 

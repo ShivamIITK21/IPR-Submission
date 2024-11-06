@@ -1,4 +1,5 @@
 from encoder import ResNetEncoder
+from attn_encoder import ResidualAttentionEncoder
 from denoiser import UNet_decoder
 from soda import SODA
 import os
@@ -16,13 +17,13 @@ DEVICE="cuda"
 IMAGE_DIM = 32
 LATENT_DIM = 128
 LR = 1.0e-4
-BATCH_SIZE = 32
+BATCH_SIZE = 32 
 CHECKPT_DIR = "./checkpoints"
 IMAGES_DIR = "./images"
 DATA_ROOT = "./data/cifar10"
 TB_DIR = "./tensorboard_logs"
 EPOCHS=800
-LOAD_EPOCH = 0 
+LOAD_EPOCH = 15 
 
 class SourceTarget(Dataset):
     def __init__(self):
@@ -57,7 +58,8 @@ if __name__ == "__main__":
     data = SourceTarget()
     dataloader = DataLoader(dataset=data, batch_size=BATCH_SIZE, num_workers=4, shuffle=True)
 
-    encoder = ResNetEncoder(image_dim=IMAGE_DIM, latent_dim=LATENT_DIM).to(DEVICE)
+    # encoder = ResNetEncoder(image_dim=IMAGE_DIM, latent_dim=LATENT_DIM).to(DEVICE)
+    encoder = ResidualAttentionEncoder()
     denoiser = UNet_decoder(image_shape=(3, IMAGE_DIM, IMAGE_DIM), z_channels=LATENT_DIM).to(DEVICE)
     soda = SODA(encoder, denoiser, betas=[1.0e-4, 0.02], n_T=1000, drop_prob=0.1, device=DEVICE).to(DEVICE)
 
